@@ -442,6 +442,9 @@ class GitDataCollector(DataCollector):
 		#If not append rev to list of rev to read from repo
 		for revline in revlines:
 			time, rev = revline.split(' ')
+			if datetime.datetime.fromtimestamp(float(time)) > datetime.datetime.now() + datetime.timedelta(weeks=1):
+				print('[SKIP] - future time stamp')
+				continue
 			#if cache empty then add time and rev to list of new rev's
 			#otherwise try to read needed info from cache
 			if 'files_in_tree' not in self.cache.keys():
